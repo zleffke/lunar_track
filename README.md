@@ -5,6 +5,8 @@ General idea is to use a combination of [Astroquery](https://pypi.org/project/as
 
 ### Directories:
 * data - location for data download.
+* config - location for configuration files.
 * utilities - helper utilities for things like plotting.
 
 ### Script Description:
+
