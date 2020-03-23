@@ -21,4 +21,6 @@ sudo pip3 install astroquery skyfield matplotlib pandas
 * Config file is in config folder:  horizons_query_config_<sc_id>.json
 * converts data from query response into pandas dataframe
 * formats headers and converts values to more useful units in the dataframe
-* exports data to data folder and stores with following filename syntax: \<GS\>\_\<SC\>\_\<START TIME\>\_\<STOP TIME\>\_\<STEP\>.csv
+* exports data to data folder and stores with following filename syntax: 
+
+\<GS\>\_\<SC\>\_\<START TIME\>\_\<STOP TIME\>\_\<STEP\>.csv
