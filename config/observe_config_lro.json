@@ -1,0 +1,14 @@
+{
+  "gs":{
+    "name":"VTGS",
+    "latitude": 37.229856,
+    "longitude": -80.439553,
+    "altitude_m": 610
+  },
+  "data_path":"data",
+  "data_file":"VTGS_LRO_2020-03-22T10:30:00Z_2020-03-22T22:30:00Z_1m.csv",
+  "satellite":{
+      "name":"LRO",
+      "freq":2271.2e6
+  }
+}
