@@ -59,7 +59,7 @@ if __name__ == "__main__":
     #set up output data path
     data_path = '/'.join([cwd, cfg['data_path']])
     if not os.path.exists(data_path):
-        print('Data path doesn\'t exist, creating...: {:s}'.format(fp_load))
+        print('Data path doesn\'t exist, creating...: {:s}'.format(data_path))
         os.makedirs(data_path)
     of = "_".join([cfg['gs']['name'],
                    cfg['horizons']['name'],
