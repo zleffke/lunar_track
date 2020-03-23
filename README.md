@@ -18,7 +18,7 @@ sudo pip3 install astroquery skyfield matplotlib pandas
 
 #### jpl_horizons_to_csv.py 
 * Queries JPL HORIZONS database for observation information (time, az, el, range, az rate, el_rate, range rate, etc.)
-* Config file is in config folder:  horizons_query_config_<sc_id>.json
+* Config file is in config folder:  `horizons_query_config_<sc_id>.json`
 * converts data from query response into pandas dataframe
 * formats headers and converts values to more useful units in the dataframe
-* exports data to data folder and stores with following filename syntax: `<GS>_<SC>_<START>_<STOP>_<STEP>.csv`
+* exports data to data folder with filename syntax: `<GS>_<SC>_<START>_<STOP>_<STEP>.csv`
