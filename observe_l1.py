@@ -44,7 +44,7 @@ if __name__ == "__main__":
     cfg.add_argument('--cfg_file',
                        dest='cfg_file',
                        type=str,
-                       default="observe_config_lro.json",
+                       default="observe_config_l1.json",
                        help="Configuration File",
                        action="store")
     args = parser.parse_args()

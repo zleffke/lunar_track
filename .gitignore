@@ -1,2 +1,6 @@
 *.csv
 *.pyc
+*.data
+*.preds
+*.dat
+*.bsp

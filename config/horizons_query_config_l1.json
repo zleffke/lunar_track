@@ -7,11 +7,11 @@
   },
   "data_path":"data",
   "horizons":{
-    "name":"LRO",
+    "name":"SEMB-L1",
     "id_type":"majorbody",
     "epochs":{
-      "start":"2020-03-24 11:50:00",
-      "stop":"2020-03-25 00:00:00",
+      "start":"2020-03-29 11:00:00",
+      "stop":"2020-03-30 00:00:00",
       "step":"1m"
     },
     "quantities":"4, 5, 20, 21, 24"

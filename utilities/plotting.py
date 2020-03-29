@@ -29,6 +29,69 @@ rad2deg = 180 / math.pi
 c       = float(299792458)    #[m/s], speed of light
 
 
+def plot_deltas(idx, df, o_path=None, save = 0):
+    a = df.name
+    x = mdates.datestr2num(df['datetime_str'].values.tolist())
+    dAz  = df['Azimuth Delta [deg]'].values.tolist()
+    dEl  = df['Elevation Delta [deg]'].values.tolist()
+    dRho = df['Range Delta [km]'].values.tolist()
+    #---- START Figure 1 ----
+    xinch = 14
+    yinch = 7
+    fig1=plt.figure(idx, figsize=(xinch,yinch/.8))
+    ax1 = fig1.add_subplot(1,1,1)
+    ax2 = ax1.twinx()
+
+    #Configure Grids
+    ax1.xaxis.grid(True,'major', linewidth=1)
+    ax1.yaxis.grid(True,'minor')
+    ax1.yaxis.grid(True,'major', linewidth=1)
+    ax1.yaxis.grid(True,'minor')
+
+    #Configure Labels and Title
+    ax1.set_xlabel('Time [UTC]')
+    ax1.set_ylabel('Delta Azimuth & Delta Elevation [deg]')
+    ax2.set_ylabel('Delta Range [km]')
+    #ax2.set_ylim(-1500,1500)
+    title = 'Lunar to {:s} Pointing and Range Deltas'.format(a)
+    ax1.set_title(title)
+
+    #Plot Data
+    ln1 = ax1.plot(x, dAz, color='r', linestyle = '-', label="$\Delta$ Azimuth [deg]", markersize=1, markeredgewidth=0)
+    ln2 = ax1.plot(x, dEl, color='b', linestyle = '-', label="$\Delta$ Elevation [deg]", markersize=1, markeredgewidth=0)
+    ln3 = ax2.plot(x, dRho, color='g', linestyle = '-', label="$\Delta$ Range [km]", markersize=1, markeredgewidth=0)
+
+    #Formate X Axis Timestamps
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d\n %H:%M:%S"))
+    #ax1.set_xlim(x2[0] - dt.timedelta(minutes = 30), x2[-1] +  dt.timedelta(minutes=30))
+    for label in ax1.xaxis.get_ticklabels():
+        label.set_rotation(45)
+    fig1.subplots_adjust(bottom=0.2)
+
+    #Configure Legend
+    lines = ln1+ln2+ln3
+    labels = [l.get_label() for l in lines]
+    box = ax1.get_position()
+    ax1.set_position([box.x0, box.y0, box.width*0.90, box.height])
+    #ax1.legend(lines, labels, loc='center left', numpoints = 1, bbox_to_anchor=(0.8, 0.95))
+    ax1.legend(lines, labels, loc='center left', bbox_to_anchor=(1.05, 0.95))
+    #ax1.legend(lines, labels, numpoints = 1)
+    #ax1.legend(lns, labs, loc=0)
+
+    #Save Figure
+    if ((o_path != None) and save):
+
+        fig_f = '{:s} Doppler Offset.png'.format(a)
+        fig_fp = '/'.join([o_path,fig_f])
+        print("Output Path:", fig_fp)
+        print("Saving Figure {:2d}: {:s}".format(idx, fig_fp))
+        fig1.savefig(fig_fp)
+
+    plt.show()
+    #plt.close(fig1)
+    idx += 1
+    return idx
+
 def plot_az_el_polar_ts(idx, df, o_path=None, save = 0):
     a = df.name
     #x = [dt.datetime.utcfromtimestamp(element*1e-9) for element in df['datetime_str'].values.tolist()] #independent variable, input
@@ -47,7 +110,7 @@ def plot_az_el_polar_ts(idx, df, o_path=None, save = 0):
     title = '{:s} Azimuth and Elevation'.format(a)
     ax1.set_title(title)
     #ax1.plot(az, el)
-    ax1.scatter(az, el, c=az, s=1, cmap='seismic', alpha=0.75)
+    ax1.scatter(az, el, c=az, s=1, cmap='plasma', alpha=0.75)
 
     plt.show()
     #plt.close(fig1)

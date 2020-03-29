@@ -18,10 +18,11 @@ import datetime
 import time
 import numpy as np
 import pandas as pd
+from skyfield import api as sf
+from skyfield import almanac
 
-import utilities.plotting
-import utilities.satellite
-
+import utilities.plotting as plot_utils
+import utilities.satellite as sat_utils
 
 deg2rad = math.pi / 180
 rad2deg = 180 / math.pi
@@ -44,7 +45,7 @@ if __name__ == "__main__":
     cfg.add_argument('--cfg_file',
                        dest='cfg_file',
                        type=str,
-                       default="observe_config_lro.json",
+                       default="observe_config_l1.json",
                        help="Configuration File",
                        action="store")
     args = parser.parse_args()
@@ -74,19 +75,42 @@ if __name__ == "__main__":
     df = pd.read_csv(in_f)
     df.name = cfg['data_file'].split("_")[1]
 
-    df['datetime'] = pd.to_datetime(df['datetime_str'])
-    doppler = utilities.satellite.Doppler_Shift(cfg['satellite']['freq'], df['Range Rate [km/sec]']*1000.0)
+    df['datetime'] = pd.to_datetime(df['datetime_str'], utc=True)
+    # df['datetime'] = df['datetime'].tz_localize('UTC')
+    doppler = sat_utils.Doppler_Shift(cfg['satellite']['freq'], df['Range Rate [km/sec]']*1000.0)
     df['Doppler Center [Hz]'] = doppler['center']
     df['Doppler Offset [Hz]'] = doppler['offset']
 
     print(df.keys().to_list())
-    lam = utilities.satellite.Freq_2_Lambda(cfg['satellite']['freq'])
-    df['Path Loss [dB]'] = utilities.satellite.Path_Loss(df['Range [km]']*1000.0, lam)
+    lam = sat_utils.Freq_2_Lambda(cfg['satellite']['freq'])
+    df['Path Loss [dB]'] = sat_utils.Path_Loss(df['Range [km]']*1000.0, lam)
 
+    #----Setup Skyfield Parameters----
+    load = sf.Loader('/'.join([cwd, cfg['data_path']]), verbose=True)
+    #load timescale object
+    ts = load.timescale()
+    t = ts.utc(df['datetime'])
+    #load almanac
+    e = load('de421.bsp')
+    earth = e['earth']
+    sun = e['sun']
+    #setup ground station
+    gs = sf.Topos(latitude_degrees=cfg['gs']['latitude'],
+                  longitude_degrees=cfg['gs']['longitude'],
+                  elevation_m=cfg['gs']['altitude_m'])
+    print(cfg['gs']['name'], gs)
+
+    astrometric = (earth+gs).at(t).observe(sun)
+    el, az, rho = astrometric.apparent().altaz()
+    df['Solar Elevation [deg]'] = el.degrees
+    df['Solar Azimuth [deg]'] = az.degrees
+    df['Solar Range [km]'] = rho.km
     print(df)
-    #utilities.plotting.plot_offset_idx(0, df, None, 0)
-    #utilities.plotting.plot_offset_ts(0, df, None, 0)
-    utilities.plotting.plot_az_el_ts(0, df, None, 0)
-    utilities.plotting.plot_az_el_polar_ts(0, df, None, 0)
+
+    df['Azimuth Delta [deg]'] = df['Solar Azimuth [deg]'] - df['Azimuth [deg]']
+    df['Elevation Delta [deg]'] = df['Solar Elevation [deg]'] - df['Elevation [deg]']
+    df['Range Delta [km]'] = df['Solar Range [km]'] - df['Range [km]']
+
+    plot_utils.plot_deltas(0, df, None, 0)
 
     sys.exit()

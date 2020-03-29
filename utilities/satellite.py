@@ -11,17 +11,16 @@ import math
 import string
 import struct
 import scipy
-#import ephem
-import datetime as dt
+import datetime
 import pandas as pd
-
-import matplotlib.pyplot as plt
 import numpy as np
-from scipy.interpolate import *
+from skyfield import api as sf
+from skyfield import almanac
 
 deg2rad = math.pi / 180
 rad2deg = 180 / math.pi
 c       = float(299792458)    #[m/s], speed of light
+au2km   = 149597870.700 #km/au
 
 def Doppler_Shift(center_freq, range_rate):
     #Returns Doppler Shift at receiver given fixed emitter
@@ -71,6 +70,32 @@ def lin_inv_xpndr_map_reverse(dn, up_min = 145.900e6, up_max = 146.000e6, dn_min
     #Default Values for FO-29 in Hz
     up = (dn_max - dn) * (up_max - up_min) / (dn_max - dn_min) + up_min
     return up
+
+def Lunar_Rise_Set(e, gs, t0=None, t1=None):
+    if t0== None:
+        t0 = ts.utc(datetime.datetime.now(datetime.timezone.utc)) #Now
+    if t1 == None:
+        t1 = ts.utc(datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=24)) #24 hours from now
+    #print(t0)
+    #print(t1)
+    f = almanac.risings_and_settings(e, e['Moon'], gs)
+    t, y = almanac.find_discrete(t0, t1, f)
+    #print (t, y)
+    for ti, yi in zip(t, y):
+        #print (ti,yi)
+        print('Lunar Rise:' if yi else ' Lunar Set:', ti.utc_datetime())
+        if yi: #Rise
+            rise_time = ti.utc_datetime()
+        else:
+            set_time = ti.utc_datetime()
+
+    return {'rise':rise_time,
+             'set':set_time,
+             'vis':set_time < rise_time}
+
+def Lunar_Illumination(e,t):
+    fi = almanac.fraction_illuminated(e, 'Moon', t)
+    return fi
 
 
 # class satellite(object):

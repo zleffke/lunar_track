@@ -6,9 +6,9 @@
     "altitude_m": 610
   },
   "data_path":"data",
-  "data_file":"VTGS_LRO_2020-03-24T11:50:00Z_2020-03-25T00:00:00Z_1m.csv",
+  "data_file":"VTGS_SEMB-L1_2020-03-29T11:00:00Z_2020-03-30T00:00:00Z_1m.csv",
   "satellite":{
       "name":"LRO",
-      "freq":2271.2e6
+      "freq":2215.0e6
   }
 }
