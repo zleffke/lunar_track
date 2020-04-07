@@ -1,0 +1,24 @@
+{
+    "gs":{
+        "name":"VTGS",
+        "latitude": 37.229856,
+        "longitude": -80.439553,
+        "altitude_m": 610
+    },
+    "data_path":"data/lro",
+    "horizons":{
+        "types":["ephemerides", "vectors"],
+        "targets":{
+            "lro":"LRO",
+            "moon":"301"
+        },
+        "quantities":"4, 5, 20, 21, 24",
+        "coord_origin":"geocentric",
+        "id_type":"majorbody",
+        "epochs":{
+            "start":"2020-02-01 00:00:00",
+            "stop": "2020-03-01 00:00:00",
+            "step":"1m"
+        }
+    }
+}

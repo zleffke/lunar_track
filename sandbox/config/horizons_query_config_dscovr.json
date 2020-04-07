@@ -1,0 +1,19 @@
+{
+  "gs":{
+    "name":"VTGS",
+    "latitude": 37.229856,
+    "longitude": -80.439553,
+    "altitude_m": 610
+  },
+  "data_path":"data",
+  "horizons":{
+    "name":"DSCOVR",
+    "id_type":"majorbody",
+    "epochs":{
+      "start":"2020-03-29 11:00:00",
+      "stop":"2020-03-30 00:00:00",
+      "step":"1m"
+    },
+    "quantities":"4, 5, 20, 21, 24"
+  }
+}

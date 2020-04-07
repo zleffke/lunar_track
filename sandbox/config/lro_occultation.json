@@ -1,0 +1,21 @@
+{
+  "gs":{
+    "name":"VTGS",
+    "latitude": 37.229856,
+    "longitude": -80.439553,
+    "altitude": 610
+  },
+  "data":{
+    "sf_path":"data/skyfield",
+    "lro":{
+      "path":"data/lro",
+      "vec_file":"LRO_GEOCENTRIC_VECTORS_2020-04-03T00:00:00Z_2020-04-04T00:00:00Z_1m.csv",
+      "pnt_file":"LRO_VTGS_EPHEMERIDES_2020-04-03T00:00:00Z_2020-04-04T00:00:00Z_1m.csv"
+    },
+    "moon":{
+      "path":"data/lro",
+      "vec_file":"MOON_GEOCENTRIC_VECTORS_2020-04-03T00:00:00Z_2020-04-04T00:00:00Z_1m.csv",
+      "pnt_file":"MOON_VTGS_EPHEMERIDES_2020-04-03T00:00:00Z_2020-04-04T00:00:00Z_1m.csv"
+    },
+  }
+}

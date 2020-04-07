@@ -1,7 +1,6 @@
+*.csv
 *.pyc
-*.bsp
 *.data
 *.preds
 *.dat
-*.csv
-*.BSP
+*.bsp
